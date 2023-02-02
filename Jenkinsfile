@@ -58,5 +58,17 @@ git push origin main'''
       }
     }
 
+    stage('Upload General') {
+      steps {
+        echo 'Checking for CSV for General'
+      }
+    }
+
+    stage('Delete environment') {
+      steps {
+        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true)
+      }
+    }
+
   }
 }
