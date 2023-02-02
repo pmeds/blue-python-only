@@ -4,7 +4,8 @@ pipeline {
     stage('get excel and python script') {
       steps {
         echo 'Getting the excel and python files'
-        sh 'chmod 754 CSV_formatter.py'
+        sh '''chmod 754 CSV_formatter.py
+chmod 754 post_req.py'''
       }
     }
 
@@ -19,13 +20,15 @@ pipeline {
       steps {
         echo 'checking if there is a csv file for games'
         fileExists 'games-upload.csv'
-        sh 'echo'
+        sh 'python3 post_req.py games-upload.csv'
       }
     }
 
     stage('Upload to general') {
       steps {
-        sh 'echo'
+        echo 'Checking if there is a CSV file for general'
+        fileExists 'test-general-upload.csv'
+        sh 'python3 post_req.py general-upload.csv'
       }
     }
 
