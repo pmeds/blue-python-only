@@ -6,7 +6,7 @@ import sys
 # Check if argument was passed. If no argument was passed then don't do anything.
 # Ideally this scenario should not happen because there is a pre-check on Jenkins to see if the files exists.
 
-if len(sys.argv) >= 1:
+if len(sys.argv) < 2:
     print('No file provided, no rules to upload')
 else:
     file_name = sys.argv[1]
@@ -32,4 +32,3 @@ else:
                 print(response.text)
     else:
         print('File not found, no rules to upload')
-
