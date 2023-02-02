@@ -19,16 +19,20 @@ chmod 754 post_req.py'''
     stage('Upload to games') {
       steps {
         echo 'checking if there is a csv file for games'
-        fileExists 'games-upload.csv'
-        sh 'python3 post_req.py games-upload.csv'
+        script {
+          if (fileExists('test-games-upload.csv')) {
+            sh 'echo "uploading games rules"'
+            sh 'python3 post_req.py test-games-upload.csv'
+          }
+        }
+
       }
     }
 
     stage('Upload to support') {
       steps {
-        echo 'Checking if there is a CSV file for general'
+        echo 'Checking if there is a CSV file for support'
         script {
-
           if (fileExists('test-support-upload.csv')) {
             sh 'echo "uploading support rules"'
             sh 'python3 post_req.py test-support-upload.csv'
