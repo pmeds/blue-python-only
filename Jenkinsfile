@@ -62,7 +62,8 @@ git push origin main'''
 
     stage('Upload General') {
       steps {
-        sh 'ls -la'
+        sh '''ls -la
+cat post_req.py'''
         echo 'Checking for CSV for General'
         script {
           if (fileExists('test-general-upload.csv')) {
