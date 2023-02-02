@@ -29,17 +29,17 @@ chmod 754 post_req.py'''
         echo 'Checking if there is a CSV file for general'
         script {
 
-          script {
-            if (fileExists('test-support-upload.csv')) {
-              sh 'echo "uploading support rules"'
-              sh 'python3 post_req.py test-support-upload.csv'
-            }
+          if (fileExists('test-support-upload.csv')) {
+            sh 'echo "uploading support rules"'
+            sh 'python3 post_req.py test-support-upload.csv'
           }
-          script {
-            if (fileExists('test-support-upload.csv')) {
-              sshagent (credentials: ['git-log']) {
-                sh 'cp support-upload.csv /resources/jenkins-ekvdata/support-upload-`date +%Y-%m-%d-%H-%M`.csv'
-                sh '''cd /resources/jenkins-ekvdata
+        }
+
+        script {
+          if (fileExists('test-support-upload.csv')) {
+            sshagent (credentials: ['git-log']) {
+              sh 'cp support-upload.csv /resources/jenkins-ekvdata/support-upload-`date +%Y-%m-%d-%H-%M`.csv'
+              sh '''cd /resources/jenkins-ekvdata
 pwd
 git pull
 git add .
@@ -47,7 +47,6 @@ git commit -m "upload support `date +%Y-%m-%d-%H-%M`"
 git branch -M main
 git remote -v
 git push origin main'''
-              }
             }
           }
         }
