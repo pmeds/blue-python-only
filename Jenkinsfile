@@ -14,6 +14,7 @@ chmod 754 post_req.py'''
       steps {
         echo 'Running CSV formatter and generating CSV files'
         sh 'python3 CSV_formatter.py'
+        sh 'ls -la'
       }
     }
 
