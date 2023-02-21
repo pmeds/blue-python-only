@@ -6,7 +6,7 @@ pipeline {
         echo 'Getting the excel and python files'
         sh '''ls -la
 chmod 754 CSV_formatter.py
-chmod 754 post_req.py'''
+chmod 754 post_req_prod.py'''
       }
     }
 
@@ -22,9 +22,10 @@ chmod 754 post_req.py'''
       steps {
         echo 'checking if there is a csv file for games'
         script {
-          if (fileExists('test-games-upload.csv')) {
+          if (fileExists('test-games-upload-locale.csv')) {
             sh 'echo "uploading games rules"'
-            sh 'python3 post_req.py test-games-upload.csv'
+            sh 'python3 post_req_prod.py test-games-upload-locale.csv'
+            sh 'cp test-games-upload-locale.csv /resources/jenkins-ekvdata/games-upload-locale-`date +%Y-%m-%d-%H-%M`.csv'
           }
         }
 
@@ -35,25 +36,10 @@ chmod 754 post_req.py'''
       steps {
         echo 'Checking if there is a CSV file for support'
         script {
-          if (fileExists('test-support-upload.csv')) {
+          if (fileExists('test-support-upload-locale.csv')) {
             sh 'echo "uploading support rules"'
-            sh 'python3 post_req.py test-support-upload.csv'
-          }
-        }
-
-        script {
-          if (fileExists('test-support-upload.csv')) {
-            sshagent (credentials: ['git-log']) {
-              sh 'cp support-upload.csv /resources/jenkins-ekvdata/support-upload-`date +%Y-%m-%d-%H-%M`.csv'
-              sh '''cd /resources/jenkins-ekvdata
-pwd
-git pull
-git add .
-git commit -m "upload support `date +%Y-%m-%d-%H-%M`"
-git branch -M main
-git remote -v
-git push origin main'''
-            }
+            sh 'python3 post_req_prod.py test-support-upload-locale.csv'
+            sh 'cp test-support-upload-locale.csv /resources/jenkins-ekvdata/test-support-upload-locale-`date +%Y-%m-%d-%H-%M`.csv'
           }
         }
 
@@ -62,13 +48,12 @@ git push origin main'''
 
     stage('Upload General') {
       steps {
-        sh '''ls -la
-cat post_req.py'''
         echo 'Checking for CSV for General'
         script {
-          if (fileExists('test-general-upload.csv')) {
+          if (fileExists('test-general-upload-locale.csv')) {
             sh 'echo "uploading general rules"'
-            sh 'python3 post_req.py test-general-upload.csv'
+            sh 'python3 post_req_prod.py test-general-upload-locale.csv'
+            sh 'cp test-general-upload-locale.csv /resources/jenkins-ekvdata/test-general-upload-locale-`date +%Y-%m-%d-%H-%M`.csv'
           }
         }
 
