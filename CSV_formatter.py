@@ -27,7 +27,7 @@ for index, row in df.iterrows():
 # Check if source_data contains any of the paths that belong to the games namespace
 # Creates the respective upload csvs for ekvuploader
     if re.search(r'games|editorial|ps4-games|ps-vr-games|ps-plus|on_ps3|on-psvita|spongebob|ace-combat', source_data):
-        with open('test-games-upload.csv', 'a') as gamesw:
+        with open('test-games-upload-locale.csv', 'a') as gamesw:
             writerg = csv.writer(gamesw, lineterminator='\n')
             if not headergm_added:
                 writerg.writerow(header)
@@ -37,14 +37,14 @@ for index, row in df.iterrows():
             print(ekvitem)
             writerg.writerows([ekvitem])
     elif re.search(r'support|soporte', source_data):
-        with open('test-support-upload.csv', 'a') as supportw:
+        with open('test-support-upload-locale.csv', 'a') as supportw:
             writers = csv.writer(supportw, lineterminator='\n')
             if not headers_added:
                 writers.writerow(header)
                 headers_added = True
             writers.writerows([ekvitem])
     else:
-        with open('test-general-upload.csv', 'a') as generalw:
+        with open('test-general-upload-locale.csv', 'a') as generalw:
             writer = csv.writer(generalw, lineterminator='\n')
             if not header_added:
                 writer.writerow(header)
