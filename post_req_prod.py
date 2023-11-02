@@ -22,9 +22,9 @@ if file_name:
         json_data = json.dumps(row)
         print(json_data)
         # Define the POST request's URL
-        url = 'https://paulm-sony.test.edgekey.net/upload'
+        url = 'https://paulm.test.edgekey.net/upload'
         # Define the POST request's headers
-        headers = {"Content-type": "application/json", "Host": "paulm-sony.test.edgekey.net"}
+        headers = {"Content-type": "application/json", "Host": "paulm.test.edgekey.net"}
         # Make the POST request
         requests.packages.urllib3.disable_warnings()
         response = requests.post(url, data=json_data, headers=headers, verify=False)
